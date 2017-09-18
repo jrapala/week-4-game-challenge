@@ -50,10 +50,11 @@ $(document).ready(function(){
 			// Start pick enemy mode
 			//
 			// Pick enemy
-			// If you have HP, and enemyies available, pick enemy to move to defender, start fight mode
+			// If you have HP, and enemyies available, change backgrounds to red w/black border, pick enemy to move to defender, start fight mode
 			// If you have HP and no enemies left, game over mode
 			//
 			// Fight
+			// Change defender background to black w/green border, text to white
 			// While you have HP, attack button works
 			// Attack button = drain enemy HP, drain your HP, increase your attack power
 			// If your HP runs out, game over mode
