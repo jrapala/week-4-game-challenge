@@ -9,6 +9,7 @@ $(document).ready(function(){
 			// =====================================================================================
 
 			userCharacter : '',
+			currentDefender : '',
 			characters : {
 				obiwan : {
 					name : 'Obi-Wan Kenobi',
@@ -54,7 +55,7 @@ $(document).ready(function(){
 			init : function() {
 				for (var key in this.characters) {
 					var $characterDiv = $('<div>');
-					$characterDiv.addClass("img-white-wrapper character");
+					$characterDiv.addClass("img-white-wrapper choice");
 					$characterDiv.attr("value", key);
 					var $characterImg = $('<img>');
 					$characterImg.addClass("img");
@@ -72,14 +73,43 @@ $(document).ready(function(){
 			// On click, character becomes your character
 			chooseCharacter : function() {
 				var self = this;
-				$('.character').on("click", function() {
+				$('.choice').on("click", function() {
+					// Set userCharacter variable to name of character clicked on
 					self.userCharacter = $(this).attr("value");
+					// Remove "choice" class from character clicked on
+					$(this).removeClass("choice");
+					// Move character clicked on to "Your Character" section
+					$(this).appendTo($('#player'));
+					// Hide row of choices
 					$('#characterChoice').hide();
+					// Move remaining characters to "Enemies Available to Attack"
+					$('.choice').appendTo($('#enemies'));
+					// Change background color of enemies and add enemy class
+					$('.choice').addClass('img-red-wrapper enemy');
+					// Remove old background color and choice class
+					$('.choice').removeClass('img-white-wrapper choice');
+					self.chooseDefender();
 				});
+			},
+
+			chooseDefender : function () {
+				var self = this;
+				$('.enemy').on("click", function() {
+					console.log("hello?");
+					self.currentDefender = $(this).attr("value");
+					$(this).removeClass("enemy");
+					$(this).appendTo($('#defender'));
+					$(this).addClass('img-green-wrapper defender');
+					$(this).removeClass('img-white-wrapper');
+					self.fight();
+				});
+			},
+
+			fight : function () {
 
 			}
-			// Other characters become enemies
-			// Start pick enemy mode
+
+
 			//
 			// Pick enemy
 			// If you have HP, and enemyies available, change backgrounds to red w/black border, pick enemy to move to defender, start fight mode
