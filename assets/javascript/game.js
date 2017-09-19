@@ -3,49 +3,81 @@
 
 $(document).ready(function(){
 
-		var starWarsApp = {}
+		var starWarsApp = {
 
 			// Variables 
 			// =====================================================================================
 
-			// Create Obi-Wan Kenobi Object
-			//		Name
-			//		Photo
-			//		Alive?
-			//		Health Points
-			//		Attack Power: 8
-			//		Counter Attack Power
+			userCharacter : '',
+			characters : {
+				obiwan : {
+					name : 'Obi-Wan Kenobi',
+					photo : 'assets/images/obiwankenobi.jpg',
+					alive : true,
+					hp : 120,
+					attack : 8,
+					counterAttack : 24
+				},
 
-			// Create Luke Skywalker Object
-			//		Name
-			//		Photo
-			//		Alive?
-			//		Health Points
-			//		Attack Power: 5
-			//		Counter Attack Power
+				luke : {
+					name : 'Luke Skywalker',
+					photo : 'assets/images/lukeskywalker.jpg',
+					alive : true,
+					hp : 100,
+					attack : 10,
+					counterAttack : 5 
+				},
 
-			// Create Darth Sidious Object
-			//		Name
-			//		Photo
-			//		Alive?
-			//		Health Points
-			//		Attack Power: 20
-			//		Counter Attack Power
+				darthsid : {
+					name : 'Darth Sidious',
+					photo : 'assets/images/darthsidious.jpg',
+					alive : true,
+					hp : 150,
+					attack : 10,
+					counterAttack : 20
+				},
 
-			// Create Darth Maul  Object
-			//		Name
-			//		Photo
-			//		Alive?
-			//		Health Points
-			//		Attack Power: 25
-			//		Counter Attack Power			
-
+				darthmaul : {
+					name : 'Darth Maul',
+					photo : 'assets/images/darthmaul.jpg',
+					alive : true,
+					hp : 180,
+					attack : 12,
+					counterAttack : 25
+				}
+			},
 
 			// Functions
 			// =====================================================================================	
 			//
 			// Initialize game
+			init : function() {
+				for (var key in this.characters) {
+					var $characterDiv = $('<div>');
+					$characterDiv.addClass("img-white-wrapper character");
+					$characterDiv.attr("value", key);
+					var $characterImg = $('<img>');
+					$characterImg.addClass("img");
+					$characterImg.attr("src", this.characters[key].photo);
+					var $characterName = this.characters[key].name;
+					var $characterHP = this.characters[key].hp;
+					$characterDiv.append($characterName);
+					$characterDiv.append($characterImg);
+					$characterDiv.append($characterHP);
+					$('#characterChoice').append($characterDiv);
+				}
+				this.chooseCharacter();
+			},
+
 			// On click, character becomes your character
+			chooseCharacter : function() {
+				var self = this;
+				$('.character').on("click", function() {
+					self.userCharacter = $(this).attr("value");
+					$('#characterChoice').hide();
+				});
+
+			}
 			// Other characters become enemies
 			// Start pick enemy mode
 			//
@@ -64,15 +96,19 @@ $(document).ready(function(){
 			// If you are alive, you win!
 			// If you are dead, you lose!
 
-
+	}
 	// Gameplay
 	// =====================================================================================
 
-
+starWarsApp.init();
 });
 
 // Notes:
 // 
+
+
+
+
 // "Star Wars RPG!"" -- top right
 // 4 clickable characters
 // [Obi-Wan Kenobi / Photo / 120] [Luke Skywalker / Photo / 100] [Darth Sidious / Photo / 150] [Darth Maul / Photo / 180]

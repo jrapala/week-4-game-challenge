@@ -33,6 +33,7 @@ h1 {
 
 h2 {
 	font-size: 1.5em;
+	text-align: left;
 }
 
 
@@ -60,17 +61,30 @@ body {
 }
 
 .row {
-	height: 100px;
+	height: 180px;
+	text-align: center;
 }
 
 .img-white-wrapper {
 	background-color: #FFF;
-	border: 1px solid green;
-	max-width: 100px;
+	border: 4px solid green;
+	max-width: 20%;
+	padding: 10px;
+	float: left;
+	margin-left: 10px;
+}
+
+.img {
+	max-width: 150px;
+
+}
+
+.img-white-wrapper:first-child {
+	margin-left: 0px;
 }
 
 header {
-	height: 60px;
+	height: 100px;
 	padding-top: 20px;
 }
 header h1 {
