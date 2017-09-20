@@ -116,8 +116,11 @@ $(document).ready(function(){
 	// Gameplay
 	// =====================================================================================
 
+	// Initalize Game
 	init();
+	// On click, character becomes your character
 	$('.choice').on("click", function() {
+		// If character has been chosen, exit
 		if (isCharacterChosen) return;
 		// Set userCharacter variable to name of character clicked on
 		userCharacter = $(this).attr("value");
@@ -136,7 +139,8 @@ $(document).ready(function(){
 		// Remove old background color and choice class
 		$('.choice').removeClass('img-white-wrapper choice');
 		$('.enemy').on("click", function() {
-			//if (isDefenderChosen) return;
+			// If defender has been chosen, exit
+			if (isDefenderChosen) return;
 			currentDefender = $(this).attr("value");
 			isDefenderChosen = true;
 			console.log("User chose " + currentDefender + " as their defender.");
