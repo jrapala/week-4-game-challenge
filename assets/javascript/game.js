@@ -9,7 +9,8 @@ $(document).ready(function(){
 		var userCharacter = '';
 		var currentDefender = '';
 		var isCharacterChosen = false;
-		var isDefenderChosen = false;		
+		var isDefenderChosen = false;
+		var enemiesLeft = 2;		
 		var characters = {
 			obiwan : {
 				name : 'Obi-Wan Kenobi',
@@ -70,7 +71,9 @@ $(document).ready(function(){
 				// Get name from character object
 				var $characterName = characters[key].name;
 				// Get HP from character object
-				var $characterHP = characters[key].hp;
+				var $characterHP = $('<div>');
+				$characterHP.attr("id", key+"_hp");
+				$characterHP.text(characters[key].hp);
 				// Append name, image, and HP to character div
 				$characterDiv.append($characterName);
 				$characterDiv.append($characterImg);
@@ -79,22 +82,29 @@ $(document).ready(function(){
 				$('#characterChoice').append($characterDiv);
 			};
 		};			
-		
-		// On click, character becomes your character
 
-
-
-		// // If a character has not been chosen yet..
-		// if (!isCharacterChosen) {
-		// 	console.log("A character needs to be chosen.");
-		// 	// Run choose character function
-		// 	chooseCharacter();
-		// };
-		// if (isCharacterChosen && !isDefenderChosen) {
-		// 	console.log("A defender needs to be chosen.");
-		// 	// Run choose character function
-		// 	chooseDefender();
-		// }; 	
+		function fight() {
+			if (characters[userCharacter].hp > 0 && characters[currentDefender].hp > 0) {
+				$('#message').html("You have attacked " + characters[currentDefender].name + " for " + characters[userCharacter].attack + " damage.<br>" + characters[currentDefender].name + " attacked you back for " + characters[currentDefender].attack + " damage.");
+				characters[userCharacter].hp -= characters[currentDefender].attack;
+				characters[currentDefender].hp -= characters[userCharacter].attack;
+				characters[userCharacter].attack += characters[userCharacter].attack;
+				if (characters[userCharacter].hp <= 0) {
+					alert("Game Over!");
+				} else if (characters[currentDefender].hp <= 0 && enemiesLeft > 0) {
+					$('.defender').hide();
+					$('#message').html("You have defeated " + characters[currentDefender].name +". You can choose to fight another enemy.")
+					enemiesLeft--;
+					isDefenderChosen = false;
+				} else if (characters[currentDefender].hp <= 0 && enemiesLeft === 0) {
+					$('.defender').hide();
+					$('#message').html("You have defeated " + characters[currentDefender].name + "<br>You won!!! GAME OVER!!!");
+				}
+				$('#'+userCharacter+'_hp').text(characters[userCharacter].hp);
+				$('#'+currentDefender+'_hp').text(characters[currentDefender].hp);
+			} 
+		};
+		// On click, character becomes your character	
 
 			//
 			// Pick enemy
@@ -139,8 +149,10 @@ $(document).ready(function(){
 		// Remove old background color and choice class
 		$('.choice').removeClass('img-white-wrapper choice');
 		$('.enemy').on("click", function() {
+			$('#message').html('');
 			// If defender has been chosen, exit
 			if (isDefenderChosen) return;
+			// set currentDefender to name of character clicked on
 			currentDefender = $(this).attr("value");
 			isDefenderChosen = true;
 			console.log("User chose " + currentDefender + " as their defender.");
@@ -150,7 +162,9 @@ $(document).ready(function(){
 			$(this).removeClass('img-white-wrapper');
 		});
 	});
-	fight();
+	$('#attack').on("click", function () {
+		fight();
+	});
 
 
 

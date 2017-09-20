@@ -114,6 +114,11 @@ body {
 	height: 60px;
 }
 
+#message {
+	color: white;
+	text-align: left;
+}
+
 header {
 	height: 100px;
 	padding-top: 20px;
