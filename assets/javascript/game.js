@@ -85,12 +85,13 @@ $(document).ready(function(){
 
 		function fight() {
 			if (characters[userCharacter].hp > 0 && characters[currentDefender].hp > 0) {
-				$('#message').html("You have attacked " + characters[currentDefender].name + " for " + characters[userCharacter].attack + " damage.<br>" + characters[currentDefender].name + " attacked you back for " + characters[currentDefender].attack + " damage.");
-				characters[userCharacter].hp -= characters[currentDefender].attack;
+				$('#message').html("You have attacked " + characters[currentDefender].name + " for " + characters[userCharacter].attack + " damage.<br>" + characters[currentDefender].name + " attacked you back for " + characters[currentDefender].counterAttack + " damage.");
+				characters[userCharacter].hp -= characters[currentDefender].counterAttack;
 				characters[currentDefender].hp -= characters[userCharacter].attack;
 				characters[userCharacter].attack += characters[userCharacter].attack;
 				if (characters[userCharacter].hp <= 0) {
-					alert("Game Over!");
+					$('.defender').hide();
+					$('#message').html("You have been defeated. GAME OVER!!!");
 				} else if (characters[currentDefender].hp <= 0 && enemiesLeft > 0) {
 					$('.defender').hide();
 					$('#message').html("You have defeated " + characters[currentDefender].name +". You can choose to fight another enemy.")
@@ -163,6 +164,9 @@ $(document).ready(function(){
 		});
 	});
 	$('#attack').on("click", function () {
+		if (!isDefenderChosen) {
+			$('#message').html("No enemy here.");
+		}
 		fight();
 	});
 
