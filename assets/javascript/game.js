@@ -18,6 +18,7 @@ $(document).ready(function(){
 				alive : true,
 				hp : 120,
 				attack : 8,
+				currentAttack: 8,
 				counterAttack : 24
 			},
 
@@ -27,6 +28,7 @@ $(document).ready(function(){
 				alive : true,
 				hp : 100,
 				attack : 10,
+				currentAttack: 10,
 				counterAttack : 5 
 			},
 
@@ -36,6 +38,7 @@ $(document).ready(function(){
 				alive : true,
 				hp : 150,
 				attack : 10,
+				currentAttack: 10,
 				counterAttack : 20
 			},
 
@@ -45,6 +48,7 @@ $(document).ready(function(){
 				alive : true,
 				hp : 180,
 				attack : 12,
+				currentAttack: 12,
 				counterAttack : 25
 			}
 		}
@@ -88,13 +92,11 @@ $(document).ready(function(){
 			// If player's character and defender have HP..
 			if (characters[userCharacter].hp > 0 && characters[currentDefender].hp > 0) {
 				// Update attack message
-				$('#message').html("You have attacked " + characters[currentDefender].name + " for " + characters[userCharacter].attack + " damage.<br>" + characters[currentDefender].name + " attacked you back for " + characters[currentDefender].counterAttack + " damage.");
-				// Subtract defender's damage from player's HP
-				characters[userCharacter].hp -= characters[currentDefender].counterAttack;
+				$('#message').html("You have attacked " + characters[currentDefender].name + " for " + characters[userCharacter].currentAttack + " damage.<br>" + characters[currentDefender].name + " attacked you back for " + characters[currentDefender].counterAttack + " damage.");
 				// Subtrack player's damage from defender's HP
-				characters[currentDefender].hp -= characters[userCharacter].attack;
+				characters[currentDefender].hp -= characters[userCharacter].currentAttack;
 				// Double player's attack power
-				characters[userCharacter].attack += characters[userCharacter].attack;
+				characters[userCharacter].currentAttack += characters[userCharacter].attack;
 				// If player's HP reaches zero..
 				if (characters[userCharacter].hp <= 0) {
 					// Game over
@@ -114,11 +116,20 @@ $(document).ready(function(){
 					// You win!
 					$('.defender').hide();
 					$('#message').html("You have defeated " + characters[currentDefender].name + "<br>You won!!! GAME OVER!!!");
+				// If defender still alive..
+				} else if (characters[currentDefender].hp > 0) {
+					// Subtract defender's damage from player's HP
+					characters[userCharacter].hp -= characters[currentDefender].counterAttack;
 				}
 				// Update player's HP on screen
 				$('#'+userCharacter+'_hp').text(characters[userCharacter].hp);
 				// Update defender's HP on screen
 				$('#'+currentDefender+'_hp').text(characters[currentDefender].hp);
+				// Debug
+				console.log("Player's HP: " + characters[userCharacter].hp);
+				console.log("Player's attack power: " + characters[userCharacter].currentAttack)
+				console.log("Defender's HP: " + characters[currentDefender].hp);
+				console.log("Defender's attack power: " + characters[currentDefender].counterAttack);
 			} 
 		};
 	
@@ -175,25 +186,6 @@ $(document).ready(function(){
 
 // Notes:
 //
-//
-// "Star Wars RPG!"" -- top right
-// 4 clickable characters
-// [Obi-Wan Kenobi / Photo / 120] [Luke Skywalker / Photo / 100] [Darth Sidious / Photo / 150] [Darth Maul / Photo / 180]
-// "Your Character"
-// 
-// "Enemies Available to Attack"
-// "Fight Section"
-// [Attack] button
-// "Defender"
-//
-// 1. On click on character, top row disappears, character becomes your character and rest become enemies
-// 2. On click of enemy, moves them to defender area
-// 3. On click of Attack button, "You attacked Darth Maul for 8 damange. / Darth Maul attacked you back for 25 damage." --> HP goes down on both
-// Enemy attack always has same damage. Attacking enemy slowly increases. Continues to increase after you defeat an enemy.
-// If you are defeated, "You have been defeated. GAME OVER!!! / [Restart] Button"
-// If enemy is defeated, "You have defeated #enemy. You can choose to fight another enemy."
-// If attack pressed with no ememy, "No enemy here."
-// Once you defeat everyone "You won!!! GAME OVER!!!" / [Restart] Button
 //
 // * Each character in the game has 3 attributes: `Health Points`, `Attack Power` and `Counter Attack Power`.
 // * Each time the player attacks, their character's Attack Power increases by its base Attack Power. 
