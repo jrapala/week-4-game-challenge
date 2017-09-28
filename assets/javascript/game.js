@@ -58,7 +58,7 @@ $(document).ready(function(){
 			for (var key in characters) {
 				// Create character div
 				var $characterDiv = $('<div>');
-				// Add white background color class and Choice class
+				// Add white background color class and choice class
 				$characterDiv.addClass("img-white-wrapper choice");
 				// Add a value attribute containing the name of the object
 				$characterDiv.attr("value", key);
@@ -83,53 +83,52 @@ $(document).ready(function(){
 			};
 		};			
 
+		// Fight sequence
 		function fight() {
+			// If player's character and defender have HP..
 			if (characters[userCharacter].hp > 0 && characters[currentDefender].hp > 0) {
+				// Update attack message
 				$('#message').html("You have attacked " + characters[currentDefender].name + " for " + characters[userCharacter].attack + " damage.<br>" + characters[currentDefender].name + " attacked you back for " + characters[currentDefender].counterAttack + " damage.");
+				// Subtract defender's damage from player's HP
 				characters[userCharacter].hp -= characters[currentDefender].counterAttack;
+				// Subtrack player's damage from defender's HP
 				characters[currentDefender].hp -= characters[userCharacter].attack;
+				// Double player's attack power
 				characters[userCharacter].attack += characters[userCharacter].attack;
+				// If player's HP reaches zero..
 				if (characters[userCharacter].hp <= 0) {
+					// Game over
 					$('.defender').hide();
 					$('#message').html("You have been defeated. GAME OVER!!!");
+				// If defender's HP reaches zero and there are enemies left to fight..
 				} else if (characters[currentDefender].hp <= 0 && enemiesLeft > 0) {
+					// Choose another defender message
 					$('.defender').hide();
 					$('#message').html("You have defeated " + characters[currentDefender].name +". You can choose to fight another enemy.")
+					// Decrease total enemy counter
 					enemiesLeft--;
+					// Choose another defender
 					isDefenderChosen = false;
+				// If defender's HP reaches zero and there are no more enemies left to fight..
 				} else if (characters[currentDefender].hp <= 0 && enemiesLeft === 0) {
+					// You win!
 					$('.defender').hide();
 					$('#message').html("You have defeated " + characters[currentDefender].name + "<br>You won!!! GAME OVER!!!");
 				}
+				// Update player's HP on screen
 				$('#'+userCharacter+'_hp').text(characters[userCharacter].hp);
+				// Update defender's HP on screen
 				$('#'+currentDefender+'_hp').text(characters[currentDefender].hp);
 			} 
 		};
-		// On click, character becomes your character	
-
-			//
-			// Pick enemy
-			// If you have HP, and enemyies available, change backgrounds to red w/black border, pick enemy to move to defender, start fight mode
-			// If you have HP and no enemies left, game over mode
-			//
-			// Fight
-			// Change defender background to black w/green border, text to white
-			// While you have HP, attack button works
-			// Attack button = drain enemy HP, drain your HP, increase your attack power
-			// If your HP runs out, game over mode
-			// If enemy HP runs out, pick enemy mode 
-			//
-			// Game Over
-			// If you are alive, you win!
-			// If you are dead, you lose!
-
 	
 	// Gameplay
 	// =====================================================================================
 
 	// Initalize Game
 	init();
-	// On click, character becomes your character
+
+	// On click, character becomes your player's character
 	$('.choice').on("click", function() {
 		// If character has been chosen, exit
 		if (isCharacterChosen) return;
@@ -175,11 +174,8 @@ $(document).ready(function(){
 });
 
 // Notes:
-// 
-
-
-
-
+//
+//
 // "Star Wars RPG!"" -- top right
 // 4 clickable characters
 // [Obi-Wan Kenobi / Photo / 120] [Luke Skywalker / Photo / 100] [Darth Sidious / Photo / 150] [Darth Maul / Photo / 180]
