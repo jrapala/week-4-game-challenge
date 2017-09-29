@@ -100,8 +100,7 @@ $(document).ready(function(){
 				// If player's HP reaches zero..
 				if (characters[userCharacter].hp <= 0) {
 					// Game over
-					$('.defender').hide();
-					$('#message').html("You have been defeated. GAME OVER!!!");
+					gameover();
 				// If defender's HP reaches zero and there are enemies left to fight..
 				} else if (characters[currentDefender].hp <= 0 && enemiesLeft > 0) {
 					// Choose another defender message
@@ -116,10 +115,14 @@ $(document).ready(function(){
 					// You win!
 					$('.defender').hide();
 					$('#message').html("You have defeated " + characters[currentDefender].name + "<br>You won!!! GAME OVER!!!");
+					restart();
 				// If defender still alive..
-				} else if (characters[currentDefender].hp > 0) {
+				} else if (characters[userCharacter].hp > 0 && characters[currentDefender].hp > 0) {
 					// Subtract defender's damage from player's HP
 					characters[userCharacter].hp -= characters[currentDefender].counterAttack;
+					if (characters[userCharacter].hp <= 0) {
+						gameover();
+					}
 				}
 				// Update player's HP on screen
 				$('#'+userCharacter+'_hp').text(characters[userCharacter].hp);
@@ -131,6 +134,20 @@ $(document).ready(function(){
 				console.log("Defender's HP: " + characters[currentDefender].hp);
 				console.log("Defender's attack power: " + characters[currentDefender].counterAttack);
 			} 
+		};
+
+		function restart() {
+			var $restartButton = $("<br><button id='restart'>Restart</button>");
+			$('#message').append($restartButton);
+			$('#restart').on("click", function () {
+				location.reload(true)
+			});
+		};
+
+		function gameover() {
+			$('.defender').hide();
+			$('#message').html("You have been defeated. GAME OVER!!!");
+			restart();
 		};
 	
 	// Gameplay
@@ -179,7 +196,6 @@ $(document).ready(function(){
 		}
 		fight();
 	});
-
 
 
 });
